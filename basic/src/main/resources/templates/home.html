@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<h1>Home</h1>
+<!-- action="보낼 주소경로" get방식으로 하니 서버에서 거부 주소는 하나인데 요청을 어떻게 받느냐에 따라 응답이 달라지는거-->	
+	<form method="post" action="req/post">
+		
+		<textarea name ="page"></textarea>
+		<input type="submit">
+	</form>
+	
+</body>
+</html>

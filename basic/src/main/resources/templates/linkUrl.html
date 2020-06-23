@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	a { text-decoration: none; font-family: fantasy;}
+</style>
+</head>
+<body>
+
+<h1>[[${session.user.userId}]]님 반갑습니다</h1> <!-- 타임리프스럽게는 th:text -->
+<th:block th:each="pageNumber : ${#numbers.sequence(1, 10)}">
+<a th:href="@{/linkUrl(page=${pageNumber})}" th:text="${pageNumber}"></a>
+
+
+<a th:if="${page} == ${pageNumber}" th:text="${pageNumber}" style="font-weight:bold"></a>
+<a th:unless="${page} == ${pageNumber}" th:text="${pageNumber}"></a>
+<!-- 이야 thymeleaf 형태 문법 신기하네 -->
+<!-- <a href="/   이렇게는 타임리프가 지원안해준다. 그래서  th:href= @{       /linkUrl(page=${pageNumber})                     } -->
+<!-- <a href="https://www.w3schools.com">Visit W3Schools</a> 이건 순수html -->
+<!-- 현재 페이지는 선택안된 상태로 만들려면 어떻게 해야하나?? -->
+</th:block>
+</body>
+</html>
