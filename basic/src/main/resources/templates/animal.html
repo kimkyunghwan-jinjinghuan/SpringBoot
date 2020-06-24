@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td>아이디</td>
+			<td>이름</td>
+			<td>성별</td>
+			<td>종</td>
+		</tr>
+		<!-- 테이블 -->
+		<tr th:each="animal : ${userlist}">
+			<td th:text="${animal.id}"></td>
+			<td th:text="${animal.name}"></td>
+			<td th:text="${animal.gender}"></td>
+			<td th:text="${animal.kind}"></td>
+		</tr>
+	</table>
+	<hr>
+	<th:block th:each="pageNumber : ${#numbers.sequence(1, 10)}"> <!-- #기호  -->
+		<span th:text="${pageNumber}"></span> 
+		
+	</th:block>
+</body>
+</html>

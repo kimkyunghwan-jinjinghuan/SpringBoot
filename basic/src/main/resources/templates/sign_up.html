@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/sign_up" method="post">
+		ID : <input type="text" name="num"><br> 
+		NAME : <input type="text" name="name"><br> 
+		EMAIL : <input type="email"	name="email"><br> 
+		PHONE : <input type="text" name="phone"><br> 
+		PW : <input type="password" name="userPassword"><br> 
+		<input type="submit" value="회원가입">
+	</form>
+
+
+	<!-- 이렇게 쓰는 방식이 CDN(Content Delivery Network) 서버에 올라와있는걸 가져와서 쓰는거 가져와서 쓰는 그 수단이 네트워크. 부트스트랩도  -->
+	<!-- 접속하는데에도 전기가 드니 비용이 발생.트래픽발생. 요금이 발생. -->
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+		//jQuery Ajax {제이슨 키밸류 넣는다}
+		$('input:submit').click(function() {//css선택자사용
+			$.ajax({
+				url : '/sign_up', //""도 된다
+				type : 'post',
+				data : $('form').serialize(), //num12&name=홍길동.... 겟방식표현
+				success : function(res) { //요청에 대한 결과가 
+					alert(res.name);
+				}
+			});
+			return false; //기존 서브밋버튼의 기능을 막기 위해서 
+		});
+	</script>
+</body>
+</html>
+
+<!-- name을 사용할때 스키마의 칼럼명으로 통일 -->
+
+

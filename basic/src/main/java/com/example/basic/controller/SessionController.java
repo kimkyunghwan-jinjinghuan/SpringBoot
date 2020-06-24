@@ -22,7 +22,7 @@ public class SessionController {
 
 	@PostMapping("/login")
 	public String loginPost(User user, HttpSession session) {
-		session.setAttribute("user", user);
+		session.setAttribute("user", user); //k ,v
 		return "redirect:/main";
 	}
 

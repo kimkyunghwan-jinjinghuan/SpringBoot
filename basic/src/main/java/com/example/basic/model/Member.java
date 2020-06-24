@@ -1,8 +1,13 @@
 package com.example.basic.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import lombok.Data;
 
 @Data
+@Entity // 디비에 정보 보내야한다
 public class Member { 
 	//VO또는 DTO라고하는 클래스
 	//클라이언트가 넘겨준 데이터를 
@@ -12,7 +17,17 @@ public class Member {
 	//Data Transfer Object
 	//Value Object
 	//이런건 Set/Get메소드가 있어야한다 setter, getter
+	
+	@Id 
+	private int num;
 	private String name;
+	private String email;
+	private String phone;
+	
+	
+	@Transient // 얘들은 데이터베이스와는 무관하다 , 디비에는 넣지 않게, 데이터베이스에 영향을 받지 않는다
 	private String userId;
+	@Transient
 	private String userPassword;
 }
+//spring.jpa.hibernate.ddl-auto=none 이라서 바로 바로 바뀌지 않는다
