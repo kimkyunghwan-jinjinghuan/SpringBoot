@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 import lombok.Data;
 
 @Data
-@Entity // 디비에 정보 보내야한다
+@Entity // 디비에 정보 보내야한다. 모델=엔티티=VO
 public class Member { 
 	//VO또는 DTO라고하는 클래스
 	//클라이언트가 넘겨준 데이터를 
@@ -25,9 +25,10 @@ public class Member {
 	private String phone;
 	
 	
-	@Transient // 얘들은 데이터베이스와는 무관하다 , 디비에는 넣지 않게, 데이터베이스에 영향을 받지 않는다
+	@Transient 
 	private String userId;
 	@Transient
 	private String userPassword;
 }
 //spring.jpa.hibernate.ddl-auto=none 이라서 바로 바로 바뀌지 않는다
+//@Transient 얘들은 데이터베이스와는 무관하다 , 디비에는 넣지 않게, 데이터베이스에 영향을 받지 않는다

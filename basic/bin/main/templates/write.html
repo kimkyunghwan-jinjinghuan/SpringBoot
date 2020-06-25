@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<form action="/write" method="post" enctype="multipart/form-data">
+		제목: <input type="text" name="title"><br>
+		내용: <textarea type="text" name="content"></textarea><br>
+		작성자 <input type="text" name="owner"><br>
+		<!-- 나머지는 입력받는거 불필요 -->
+		<input type="file" name="file" multiple><br> 
+		<input type="submit" value="업로드"><br>
+		<input type="submit">
+	</form>
+	
+
+	<script>
+		$('input[name=num]').change(function() {
+			var value = $(this).val();
+			alert(value);
+		});
+	
+		//jQuery Ajax {제이슨 키밸류 넣는다}
+		$('input:submit').click(function() {//css선택자사용
+			$.ajax({
+				url : '/write', //""도 된다
+				type : 'post',
+				data : $('form').serialize(), //num12&name=홍길동.... 겟방식표현
+				success : function(res) { //요청에 대한 결과가 
+					alert(res.name);
+				}
+			});
+			return false; //기존 서브밋버튼의 기능을 막기 위해서 
+		});
+	</script>
+	
+	
+	
+</body>
+</html>
+
+
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+
+
+<body>
+	<form action="/write" method="post" enctype="multipart/form-data">
+		제목: <input type="text" name="title"><br>
+		내용: <textarea name="content"></textarea><br>
+		작성자: <input type="text" name="owner"><br>
+		파일업로드(하나만 선택해주세요) :<input type="file" name="file" multiple><br>
+		<input type="submit" value="글쓰기" >
+	</form>
+  	<script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+  	<script> 
+		$('input:submit').click(function() {
+			// 유효성 검사 input태그 타입(:)이 submit
+			
+			// form을 submit 하는 경우
+			// $('form')[0].submit();
+			var form = $('form')[0];
+			var formData = new FormData(form);
+
+			$.ajax({
+				url : '/write',
+				method : 'post',
+				data : formData, //num=12&name=홍길동...
+				success : function(res) {
+					alert(res.name);
+				}
+			});
+			return false; //기존 submit은 화면을 갱신한다 ajax를 사용하기때문에 화면갱신이 동작하지않게  
+		});
+	</script>
+	
+</body>
+</html>
+ -->
+
+

@@ -8,7 +8,31 @@
 	<form action="/login" method="post">
 		ID : <input type="text" name="userId"><br> 
 		PW : <input	type="password" name="userPw"><br> 
-		<input type="submit"value="로그인">
+			 <input type="submit"value="로그인" id="a">
+			 <input type="submit"value="회원가입" id="b">
 	</form>
+	
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+		//jQuery Ajax {제이슨 키밸류 넣는다}
+		$('input:submit').click(function() {//css선택자사용
+			$.ajax({
+				url : '/logintest', //""도 된다
+				type : 'post',
+				data : $('form').serialize(), //num12&name=홍길동.... 겟방식표현
+				success : function(res) { //요청에 대한 결과가 
+					if(res==1){
+						location ='/main';
+					} else{
+						alert("다시 로그인 해주세요");
+					}
+				}
+			});
+			return false; //기존 서브밋버튼의 기능을 막기 위해서 
+		});
+		$('#b').click(function(){
+			location = 'sign_up';
+		});
+	</script>
 </body>
 </html>
