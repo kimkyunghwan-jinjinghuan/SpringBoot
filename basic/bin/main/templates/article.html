@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td>번호</td>
+			<td>제목</td>
+			<td>내용</td>
+			<td>조회수</td>
+			<td>작성자</td>
+			<td>등록일자</td>
+			<td>첨부파일</td>
+			
+
+		</tr>
+		<!-- 테이블 -->
+		<tr th:each="article : ${list}">
+			<td th:text="${article.id}"></td>
+			<td>[[${article.title}]]</td>
+			<td th:text="${article.content}"></td>
+			<td th:text="${article.hit}"></td>
+			<td th:text="${article.owner}"></td>
+			<td th:text="${article.creDate}"></td>
+			<td th:text="${article.oFileName}"></td>
+			<td>
+				<a th:href="@{/download(id=${article.id})}"
+					th:text="${article.oFileName}"></a>
+				
+			</td>
+		</tr>
+	</table>
+	<hr>
+	<th:block th:each="pageNumber : ${#numbers.sequence(1, 10)}"> <!-- #기호  -->
+		<span th:text="${pageNumber}"></span> 
+		
+	</th:block>
+</body>
+</html>
+
+
+<!-- 게시물 조회 -->

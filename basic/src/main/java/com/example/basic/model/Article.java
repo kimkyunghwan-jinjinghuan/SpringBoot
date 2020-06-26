@@ -2,6 +2,7 @@ package com.example.basic.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,14 +18,16 @@ public class Article {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	long id;
-	String title;
-	String content;
-	String owner;
-	int hit;
-	String creDate; // cre_date
-	String oFileName;
-	String sFileName ;
+	private long id;
+	private String title;
+	private String content;
+	private String owner;
+	private int hit;
+	private String creDate; // cre_date
+	
+	@Column(name="s_file_name", length =1000)
+	private String oFileName;
+	private String sFileName ;
 	
 	
 }

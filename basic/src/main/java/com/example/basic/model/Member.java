@@ -32,3 +32,4 @@ public class Member {
 }
 //spring.jpa.hibernate.ddl-auto=none 이라서 바로 바로 바뀌지 않는다
 //@Transient 얘들은 데이터베이스와는 무관하다 , 디비에는 넣지 않게, 데이터베이스에 영향을 받지 않는다
+//@Data(롬복)에 의해 set, get메소드 구현가능

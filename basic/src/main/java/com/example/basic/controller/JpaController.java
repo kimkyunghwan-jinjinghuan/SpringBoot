@@ -25,68 +25,56 @@ import com.example.basic.repository.AnimalRepository;
 import com.example.basic.repository.ArticleRepository;
 import com.example.basic.repository.TreeRepository;
 
-//@RestController vs @Contrller 차이는?
+
 @Controller
 public class JpaController {
-	@Autowired ArticleRepository atr;
-	
-	@GetMapping("/write")  //보여주는
+	@Autowired
+	ArticleRepository atr;
+
+	@GetMapping("/write") // 보여주는
 	public String write() {
-		return "write"; //write.html만들어야 
+		return "write"; // write.html만들어야
 	}
-	
-	@PostMapping("/write") //입력받은걸 처리한다
+
+	@PostMapping("/write") // 입력받은걸 처리한다
 	@ResponseBody
 	public Article writePost(@ModelAttribute Article article, MultipartHttpServletRequest mRequest) {
-		Article result = atr.save(article); //디비로 데이터가 
-		return result;
+
+		System.out.println(article);
+		System.out.println(mRequest); // 파일업로드요청했고, 잘들어왔는지 데이터확인검사
+
+		MultipartFile mfile = mRequest.getFile("file");
+		String oFileName = mfile.getOriginalFilename();
+		File file = new File("c:/dev/" + oFileName);
+		String sFileName = ""; // 지역변수선언 해주고 할당은 안에서 , 초기화는 해주고
+		// sFileName = oFileName; 중복필터링해주고
+
+		int index = oFileName.lastIndexOf(".");
+		String name = oFileName.substring(0, index);
+		String ext = oFileName.substring(index);
+
 		
-		/*
-		String result = "";
-		List<MultipartFile> mFiles = mRequest.getFiles("file"); // getFile이 아니고 getFiles(), getFiles(String name):
-																// List<MultipartFile>
-		for (int i = 0; i < mFiles.size(); i++) {
-			MultipartFile mFile = mFiles.get(i); // MultipartFile타입 List구조. get(int index): MultipartFile - List
-
-			String oName = mFile.getOriginalFilename(); // original
-
-			File file = new File("c:/dev/" + oName);
-			String saveName = "";
-			// 파일명 중복검사, 중복되면 파일명 바꾸어서 저장하게끔 만들기
-			if ((file.exists())) { // 파일이 존재하여 중복되는 경우
-				int idx = oName.lastIndexOf("."); // 점의 위치를 찾고 0번 부터 어디까지 서브스트링
-				String name = oName.substring(0, idx);
-				String ext = oName.substring(idx); // idx부터 끝까지
-				
-				//if, continue 써서
-				if ((ext.equals('jpg') || ext.equals(gif) || extequals(png)) {
-					saveName = name + "_" + System.currentTimeMillis() + ext;
-					// css1.html -> css1_12307123.html
-				} else {
-					continue;
-				}
-				saveName = oName; // 중복안됬을때는 그대로 저장
-				
-				try {
-					mFile.transferTo(new File("c:/dev/" + saveName));
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				result += oName + "\n";
-
-			}
-
+		//중복검사를 하기 전에 
+		if (file.exists()) {
+			sFileName = name + "_" + System.currentTimeMillis() + ext;
+		} else {
+			sFileName = oFileName;
 		}
+		try {
+			mfile.transferTo(new File("c:/dev/" + sFileName));
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		article.setOFileName(oFileName);
+		article.setSFileName(sFileName);
+
+		Article result = atr.save(article); // 디비로 데이터가
 		return result;
-		*/
-		
-		
-		
 
 	}
 //	2. 글쓰기 기능에 파일업로드 기능 추가 
@@ -94,64 +82,84 @@ public class JpaController {
 //	 - Article 클래스에 oFileName, sFileName 변수 추가 (original, save)
 //	 - 글쓰기내용(content)과 파일정보(title, owner, creDate, hit)를 데이터베이스 함께 저장
 //   파일업로드할때 중복되는 파일이 있늕
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@Autowired TreeRepository tr;
-	@Autowired AnimalRepository ar;
-	@Autowired Animal animal;
-	
-	
-	
+
+	@Autowired
+	TreeRepository tr;
+	@Autowired
+	AnimalRepository ar;
+	@Autowired
+	Animal animal;
+
 	@GetMapping("/animal_html")
 	public String animal(Model model, HttpSession session) {
 		User id = (User) session.getAttribute("user");
-		if(id == null) {
+		if (id == null) {
 			return "redirect:/login";
 		}
-	  //오버로딩 overloading - 메소드명은 같고, 인자의 개수/종류/순서가 다른 형태. 메소드형제들
-	  //System.out.println(animal); //스프링이 알아서 new를 해서 메모리상에 등록된 객체를 autowired어노테이션 활용하여 데려올 수 있다. 가르킬 수 있다. 현animal syso하기전에 new한적이 없는데도 콘솔에 찍힌다.
-		List<Animal> list = ar.findAll(); //select All 조회시
-		model.addAttribute("userlist", list); //키, 밸류
+		// System.out.println(animal); //스프링이 알아서 new를 해서 메모리상에 등록된 객체를 autowired어노테이션
+		// 활용하여 데려올 수 있다. 가르킬 수 있다. 현animal syso하기전에 new한적이 없는데도 콘솔에 찍힌다.
+		List<Animal> list = ar.findAll(); // select All 조회시
+		model.addAttribute("userlist", list); // 키, 밸류
 		return "animal";
-	} //리턴타입 맞추는것까지 String animal() { return list.toString();}
-	  //JDBC코드보다 스프링코드 jpa가 더 짧게
-	  //model을 list에 add해야한다 model. ("key", 
-	
-	
-	
+	}
+	// 리턴타입 맞추는것까지 String animal() { return list.toString();}
+	// JDBC코드보다 스프링코드 jpa가 더 짧게
+	// model을 list에 add해야한다 model. ("key",
+
 	@GetMapping("/animal")
 	@ResponseBody
 	public List<Animal> animal() {
-		List<Animal> list = ar.findAll(); //select All 조회시
+		List<Animal> list = ar.findAll(); // select All 조회시
 		return list;
-	} //리턴타입 맞추는것까지 String animal() { return list.toString();}
-	  //JDBC코드보다 스프링코드 jpa가 더 짧게
-	  
-	
-	
-	
-	
-	
+	} // 리턴타입 맞추는것까지 String animal() { return list.toString();}
+		// JDBC코드보다 스프링코드 jpa가 더 짧게
+
 	@GetMapping("/tree_add")
 	@ResponseBody
 	public String tree_add() {
 		Tree tree = new Tree();
 		tree.setColor("RED");
 		tree.setName("소나무");
-		tr.save(tree); //select All
+		tr.save(tree); // select All
 		return "ok";
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//메모
 // @ModelAttribute Article article html폼에서 받은 데이터 PostMapping거쳐서
 // MultipartHttpServletRequest mRequest 위의 것과 서로 다른 타입

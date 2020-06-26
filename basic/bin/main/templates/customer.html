@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/800px-Apple_logo_black.svg.png">
+<title>Insert title here</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td>고객아이디</td>
+			<td>고객명</td>
+			<td>배송지</td>
+			<td>주문수량</td>
+			<td>적립금</td>
+		</tr>
+		<!-- 테이블 -->
+		<tr th:each="customer : ${list}"> <!-- 	model.addAttribute("list",list); //모델에 담는다 리스트 리스트객체 -->
+			<td th:text="${customer.customerid}"></td>
+			<td th:text="${customer.name}"></td>
+			<td th:text="${customer.dest}"></td>
+			<td th:text="${customer.count}"></td>
+			<td th:text="${order.customer.point}"></td> <!-- dname는 emp들 리스트 -->
+		</tr>
+	</table>
+</body>
+</html>
+
+
+<!-- 게시물 조회 -->

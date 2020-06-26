@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/800px-Apple_logo_black.svg.png">
+<title>Insert title here</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td>사원번호</td>
+			<td>사원명</td>
+			<td>부서명</td>
+		</tr>
+		<!-- 테이블 -->
+		<tr th:each="emp : ${list}"> <!-- 	model.addAttribute("list",list); //모델에 담는다 리스트 리스트객체 -->
+			<td th:text="${emp.empno}"></td>
+			<td th:text="${emp.ename}"></td>
+			<td th:text="${emp.dept.dname}"></td> <!-- dname는 emp들 리스트 -->
+		</tr>
+	</table>
+</body>
+</html>
+
+
+<!-- 게시물 조회 -->
